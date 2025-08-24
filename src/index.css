@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+::-webkit-scrollbar {
+  width: 4px; /* vertical scrollbar width */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a0aec0; /* gray */
+  border-radius: 9999px; /* fully rounded */
+}
+
+::-webkit-scrollbar-track {
+  background: #f7fafc; /* light gray */
+}
+
+.active {
+  color: blue; 
+  font-weight: bold;
+  border-bottom: 2px solid blue;
+} 
