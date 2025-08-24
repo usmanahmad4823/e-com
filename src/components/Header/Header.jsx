@@ -44,11 +44,11 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 cursor-pointer hover:text-gray-700 transition">
+            <div className="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition">
               <AccountCircleOutlinedIcon className="text-[28px]" />
             </div>
 
-            <div className="relative cursor-pointer hover:text-gray-700 transition">
+            <div className="relative cursor-pointer hover:text-blue-500 transition">
               <ShoppingCartOutlinedIcon className="text-[28px]" />
               <div className="absolute -top-1 -right-2 w-4 h-4 rounded-full bg-green-500 text-[10px] flex items-center justify-center font-light">
                 3
@@ -70,38 +70,38 @@ const Header = () => {
           <div className="flex flex-1 max-w-[600px] justify-center items-center font-medium">
             <ul className="flex items-center justify-center gap-6 text-xs">
               <li>
-                <Link to="#" className="hover:text-gray-700 transition">
+                <Link to="#" className="hover:text-blue-500 transition">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="#" className="hover:text-gray-700 transition">
+                <Link to="#" className="hover:text-blue-500 transition">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="#" className="hover:text-gray-700 transition">
+                <Link to="#" className="hover:text-blue-500 transition">
                   Shop
                 </Link>
               </li>
               <li>
-                <Link to="#" className="hover:text-gray-700 transition">
+                <Link to="#" className="hover:text-blue-500 transition">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link to="#" className="hover:text-gray-700 transition">
+                <Link to="#" className="hover:text-blue-500 transition">
                   Contact
                 </Link>
               </li>
-              <li className="flex items-center gap-1 cursor-pointer hover:text-gray-700 transition">
+              <li className="flex items-center gap-1 cursor-pointer hover:text-blue-500 transition">
                 <Link to="#">Pages</Link>
                 <KeyboardArrowDownOutlinedIcon fontSize="small" />
               </li>
             </ul>
           </div>
 
-          <div className="flex items-center text-sm font-bold cursor-pointer hover:text-gray-700 transition">
+          <div className="flex items-center text-sm font-bold cursor-pointer hover:text-blue-500 transition">
             <span>Ongoing Offers</span>
             <LoyaltyOutlinedIcon className="text-red-600 ml-1" />
           </div>
