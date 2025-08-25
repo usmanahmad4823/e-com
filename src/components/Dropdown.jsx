@@ -11,7 +11,7 @@ const Dropdown = () => {
 
   return (
     <>
-      <div className="dropdown absolute top-8 left-4 shadow-lg z-50 w-[10rem] rounded-b-lg overflow-hidden text-xs font-semibold">
+      <div className="dropdown bg-white absolute top-8 left-4 z-50 shadow-lg w-[10rem] rounded-b-lg overflow-hidden text-xs font-semibold">
         <ul className="scroll flex flex-col gap-2 p-4 max-h-[15rem] overflow-y-scroll">
           <li 
             onClick={() => closeSelect(0)} 
