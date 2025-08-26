@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.webp";
 import SearchIcon from "@mui/icons-material/Search";
 import CallIcon from "@mui/icons-material/Call";
@@ -19,11 +19,15 @@ const Header = () => {
       <header className="w-full py-3 shadow-md z-50">
         <div className="max-w-[1400px] mx-auto px-4 flex items-center justify-between gap-6">
           <div className="flex-shrink-0">
+            <NavLink 
+            to="/">
+
             <img
               className="w-[170px] cursor-pointer"
               src={logo}
               alt="ELECTRONICZ"
-            />
+              />
+              </NavLink>
           </div>
 
           <div className="flex flex-1 max-w-[600px] items-center bg-black rounded-md overflow-hidden">
@@ -60,44 +64,77 @@ const Header = () => {
 
       <nav className="w-full py-2 shadow-md border-y border-gray-100 ">
         <div className=" relative max-w-[1400px] mx-auto px-4 flex items-center justify-between">
-          <div onClick={() => setIsOpen(!isOpen)}  className=" flex items-center text-xs font-bold cursor-pointer">
+          <div
+            onClick={() => setIsOpen(!isOpen)}
+            className=" flex items-center text-xs font-bold cursor-pointer"
+          >
             <WidgetsOutlinedIcon />
-            <span  className="ml-1">
-              CATEGORIES
-            </span>
+            <span className="ml-1">CATEGORIES</span>
             {isOpen === true && <Dropdown />}
           </div>
           <div className="flex flex-1 max-w-[600px] justify-center items-center font-medium">
             <ul className="flex items-center justify-center gap-6 text-xs">
               <li>
-                <Link to="#" className="hover:text-blue-500 transition">
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                      isActive ? "text-blue-600 font-bold" : ""
+                    }`
+                  }
+                >
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="#" className="hover:text-blue-500 transition">
+                <NavLink
+                  to="about"
+                  className={({ isActive }) =>
+                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                      isActive ? "text-blue-600 font-bold" : ""
+                    }`
+                  }
+                >
                   About Us
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="#" className="hover:text-blue-500 transition">
+                <NavLink
+                  to="shop"
+                  className={({ isActive }) =>
+                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                      isActive ? "text-blue-600 font-bold" : ""
+                    }`
+                  }
+                >
                   Shop
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="#" className="hover:text-blue-500 transition">
+                <NavLink
+                  to="blog"
+                  className={({ isActive }) =>
+                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                      isActive ? "text-blue-600 font-bold" : ""
+                    }`
+                  }
+                >
                   Blog
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="#" className="hover:text-blue-500 transition">
+                <NavLink
+                  to="contact"
+                  className={({ isActive }) =>
+                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                      isActive ? "text-blue-600 font-bold" : ""
+                    }`
+                  }
+                >
                   Contact
-                </Link>
+                </NavLink>
               </li>
-              <li className="flex items-center gap-1 cursor-pointer hover:text-blue-500 transition">
-                <Link to="#">Pages</Link>
-                <KeyboardArrowDownOutlinedIcon fontSize="small" />
-              </li>
+            
             </ul>
           </div>
 

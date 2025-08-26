@@ -5,8 +5,8 @@ import Home from './components/Home/Home'
 const App = () => {
   return (
     <>
-    <Header/>
-    <Home/>
+    {/* <Header/> */}
+    {/* <Home/> */}
     {/* <Dropdown/> */}
     </>
   )
