@@ -10,24 +10,49 @@ import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import LoyaltyOutlinedIcon from "@mui/icons-material/LoyaltyOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import Dropdown from "../Dropdown";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const cartItems = useSelector((state) => state.cart.items);
+
+  const totalCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const categoriesDropDown = [
+    { label: "Watch", path: "/watch" },
+    { label: "Speaker", path: "/speaker" },
+    { label: "Phone", path: "/phone" },
+    { label: "Mouse", path: "/mouse" },
+    { label: "Monitor", path: "/monitor" },
+    { label: "Laptop", path: "/laptop" },
+    { label: "Keyboard", path: "/keyboard" },
+    { label: "Joystick", path: "/joystick" },
+    { label: "HeadPhones", path: "/headphones" },
+    { label: "EarBuds", path: "/earbuds" },
+    { label: "Cameras", path: "/camera" },
+    { label: "CCTV", path: "/cctv" },
+  ];
+  const profileDropDown = [
+    { label: "Profile", path: "/profile" },
+    { label: "Dashboard", path: "/dashboard" },
+  ];
 
   return (
     <>
       <header className="w-full py-3 shadow-md z-50">
         <div className="max-w-[1400px] mx-auto px-4 flex items-center justify-between gap-6">
           <div className="flex-shrink-0">
-            <NavLink 
-            to="/">
-
-            <img
-              className="w-[170px] cursor-pointer"
-              src={logo}
-              alt="ELECTRONICZ"
+            <NavLink to="/">
+              <img
+                className="w-[170px] cursor-pointer"
+                src={logo}
+                alt="ELECTRONICZ"
               />
-              </NavLink>
+            </NavLink>
           </div>
 
           <div className="flex flex-1 max-w-[600px] items-center bg-black rounded-md overflow-hidden">
@@ -48,15 +73,32 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition">
+            {/* <div className="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition">
               <AccountCircleOutlinedIcon className="text-[28px]" />
-            </div>
+              </div> */}
+
+            {/* ..... */}
+
+              <div
+            onClick={() => setIsOpen(!isOpen)}
+            className="relative  flex items-center text-xs font-bold cursor-pointer"
+          >
+              <AccountCircleOutlinedIcon className="text-[28px]" />
+            {isOpen === true &&   
+              <Dropdown items={profileDropDown} onSelect={(item) => console.log("Selected:", item)}/>}
+          </div>
+            {/* ..... */}
 
             <div className="relative cursor-pointer hover:text-blue-500 transition">
-              <ShoppingCartOutlinedIcon className="text-[28px]" />
-              <div className="absolute -top-1 -right-2 w-4 h-4 rounded-full bg-green-500 text-[10px] flex items-center justify-center font-light">
-                3
-              </div>
+              <NavLink to="cart">
+                <ShoppingCartOutlinedIcon className="text-[28px] " />
+              </NavLink>
+
+              {totalCount > 0 && (
+                <div className="absolute -top-1 -right-2 w-4 h-4 rounded-full bg-green-500 text-[10px] flex items-center justify-center font-light">
+                  {totalCount}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -70,7 +112,8 @@ const Header = () => {
           >
             <WidgetsOutlinedIcon />
             <span className="ml-1">CATEGORIES</span>
-            {isOpen === true && <Dropdown />}
+            {isOpen === true &&   
+              <Dropdown items={categoriesDropDown} onSelect={(item) => console.log("Selected:", item)}/>}
           </div>
           <div className="flex flex-1 max-w-[600px] justify-center items-center font-medium">
             <ul className="flex items-center justify-center gap-6 text-xs">
@@ -134,7 +177,6 @@ const Header = () => {
                   Contact
                 </NavLink>
               </li>
-            
             </ul>
           </div>
 
@@ -149,3 +191,9 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
+
+

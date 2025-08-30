@@ -1,82 +1,53 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const Dropdown = () => {
-  const [selectedIndex, setSelectedIndex] = useState(null)
+const Dropdown = ({ items = [], onSelect, onClose }) => {
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const dropdownRef = useRef(null);
 
-  const closeSelect = (index) => {
-    setSelectedIndex(index)
-    console.log(index)
-  }
+  const handleSelect = (index, path) => {
+    setSelectedIndex(index);
+    if (onSelect) onSelect(items[index]);
+    if (onClose) onClose(); // close after selecting
+  };
+
+  // Detect outside clicks
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (onClose) onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   return (
-    <>
-      <div className="dropdown bg-white absolute top-8 left-4 z-50 shadow-lg w-[10rem] rounded-b-lg overflow-hidden text-xs font-semibold">
-        <ul className="scroll flex flex-col gap-2 p-4 max-h-[15rem] overflow-y-scroll">
-          <li 
-            onClick={() => closeSelect(0)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 0 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="watch">Watch</Link> 
+    <div
+      ref={dropdownRef}
+      className="absolute top-7 z-50 w-24 bg-white shadow-xl rounded-lg overflow-hidden text-xs font-normal border border-gray-200"
+    >
+      <ul className="flex flex-col gap-1 p-1.5 max-h-60 overflow-y-auto">
+        {items.map((item, index) => (
+          <li
+            key={index}
+            onClick={() => handleSelect(index, item.path)}
+            className={`px-1 py-1 rounded-md transition-all duration-200 cursor-pointer 
+              ${
+                selectedIndex === index
+                  ? "text-blue-600 font-semibold bg-indigo-50"
+                  : "hover:text-blue-500 hover:bg-gray-100"
+              }`}
+          >
+            <Link to={item.path}>{item.label}</Link>
           </li>
-          <li 
-            onClick={() => closeSelect(1)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 1 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="speaker">Speaker</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(2)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 2 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="phone">Phone</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(3)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 3 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="mouse">Mouse</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(4)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 4 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="monitor">Monitor</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(5)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 5 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="laptop">Laptop</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(6)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 6 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="keyboard">Keyboard</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(7)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 7 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="joystick">Joystick</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(8)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 8 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="headphones">HeadPhones</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(9)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 9 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="earbuds">EarBuds</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(10)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 10 ? "text-blue-600 font-bold" : ""}`}>
-            <Link to="camera">Cameras</Link>
-          </li>
-          <li 
-            onClick={() => closeSelect(11)} 
-            className={`hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${selectedIndex === 11 ? "text-blue-600 font-bold" : ""}`}>
-            <Link  to="CCTV">CCTV</Link>
-          </li>
-        </ul>
-      </div>
-    </>
-  )
-}
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-export default Dropdown
+export default Dropdown;

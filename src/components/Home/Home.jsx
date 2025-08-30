@@ -6,6 +6,8 @@ import apple from "../../assets/images/apple.png";
 import samsung from "../../assets/images/samsung.png";
 import google from "../../assets/images/google.png";
 import { Link } from "react-router";
+import AdSection from "./AdSection";
+import Shop from "../Shop/Shop";
 
 const images = [banner1, banner2, banner3];
 
@@ -23,7 +25,7 @@ const Home = () => {
 
   return (
     // <div className="w-full h-full flex items-center justify-center bg-red-300 home-content">
-    <div className="w-full h-full flex items-center justify-center  home-content">
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100  home-content">
       <div className="home-content">
         <div className=".banner relative w-full max-w-[1200px] rounded-2xl overflow-hidden my-6">
           <div
@@ -72,6 +74,8 @@ const Home = () => {
             </div>
           </div>
         </div>
+        <AdSection/>
+        <Shop/>
       </div>
     </div>
   );
