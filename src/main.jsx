@@ -21,6 +21,7 @@ import PostAd from "./components/PostAd";
 import ViewAds from "./components/ViewAds";
 import ViewAd from "./components/ViewAd";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import Profile from "./pages/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
        {
         path: "dashboard",
         element: <Dashboard/>
+       },
+       {
+        path: "profile",
+        element: <Profile/>
        },
        {
         path:"/blog/:id",
