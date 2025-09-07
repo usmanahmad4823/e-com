@@ -25,9 +25,9 @@ const Home = () => {
 
   return (
     // <div className="w-full h-full flex items-center justify-center bg-red-300 home-content">
-    <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100  home-content">
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100  home-content px-2">
       <div className="home-content">
-        <div className=".banner relative w-full max-w-[1200px] rounded-2xl overflow-hidden my-6">
+        <div className=".banner relative w-full max-w-[1200px] rounded-lg overflow-hidden my-6">
           <div
             className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
