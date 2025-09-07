@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.webp";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,19 +7,18 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import LoyaltyOutlinedIcon from "@mui/icons-material/LoyaltyOutlined";
-import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-import Dropdown from "../Dropdown";
+import Dropdown from "../../components/Dropdown"
 import { useSelector } from "react-redux";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+
+  const profileRef = useRef(null);
+  const categoriesRef = useRef(null);
 
   const cartItems = useSelector((state) => state.cart.items);
-
-  const totalCount = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const totalCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const categoriesDropDown = [
     { label: "Watch", path: "/watch" },
@@ -41,10 +39,31 @@ const Header = () => {
     { label: "Dashboard", path: "/dashboard" },
   ];
 
+  // Close dropdowns on click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target)
+      ) {
+        setIsProfileOpen(false);
+      }
+      if (
+        categoriesRef.current &&
+        !categoriesRef.current.contains(event.target)
+      ) {
+        setIsCategoriesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
-      <header className="w-full py-3 shadow-md z-50">
+      <header className="w-full py-3 shadow-md z-50 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 flex items-center justify-between gap-6">
+  
           <div className="flex-shrink-0">
             <NavLink to="/">
               <img
@@ -65,6 +84,7 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-6 text-black text-sm font-light">
+          
             <div className="flex items-center px-3 py-1 rounded-md cursor-pointer transition">
               <CallIcon className="mr-2" />
               <div className="leading-4">
@@ -73,27 +93,28 @@ const Header = () => {
               </div>
             </div>
 
-            {/* <div className="flex items-center gap-2 cursor-pointer hover:text-blue-500 transition">
-              <AccountCircleOutlinedIcon className="text-[28px]" />
-              </div> */}
-
-            {/* ..... */}
-
+            <div ref={profileRef} className="relative flex items-center">
               <div
-            onClick={() => setIsOpen(!isOpen)}
-            className="relative  flex items-center text-xs font-bold cursor-pointer"
-          >
-              <AccountCircleOutlinedIcon className="text-[28px]" />
-            {isOpen === true &&   
-              <Dropdown items={profileDropDown} onSelect={(item) => console.log("Selected:", item)}/>}
-          </div>
-            {/* ..... */}
+                onClick={() => {
+                  setIsProfileOpen(!isProfileOpen);
+                  setIsCategoriesOpen(false); // close others
+                }}
+                className="flex items-center text-xs font-bold cursor-pointer"
+              >
+                <AccountCircleOutlinedIcon className="text-[28px]" />
+              </div>
+              {isProfileOpen && (
+                <Dropdown
+                  items={profileDropDown}
+                  onSelect={(item) => console.log("Selected:", item)}
+                />
+              )}
+            </div>
 
             <div className="relative cursor-pointer hover:text-blue-500 transition">
               <NavLink to="cart">
-                <ShoppingCartOutlinedIcon className="text-[28px] " />
+                <ShoppingCartOutlinedIcon className="text-[28px]" />
               </NavLink>
-
               {totalCount > 0 && (
                 <div className="absolute -top-1 -right-2 w-4 h-4 rounded-full bg-green-500 text-[10px] flex items-center justify-center font-light">
                   {totalCount}
@@ -104,24 +125,35 @@ const Header = () => {
         </div>
       </header>
 
-      <nav className="w-full py-2 shadow-md border-y border-gray-100 ">
-        <div className=" relative max-w-[1400px] mx-auto px-4 flex items-center justify-between">
-          <div
-            onClick={() => setIsOpen(!isOpen)}
-            className=" flex items-center text-xs font-bold cursor-pointer"
-          >
-            <WidgetsOutlinedIcon />
-            <span className="ml-1">CATEGORIES</span>
-            {isOpen === true &&   
-              <Dropdown items={categoriesDropDown} onSelect={(item) => console.log("Selected:", item)}/>}
+      <nav className="w-full py-2 shadow-md border-y border-gray-100 bg-white">
+        <div className="relative max-w-[1400px] mx-auto px-4 flex items-center justify-between">
+       
+          <div ref={categoriesRef} className="relative flex items-center">
+            <div
+              onClick={() => {
+                setIsCategoriesOpen(!isCategoriesOpen);
+                setIsProfileOpen(false); // close others
+              }}
+              className="flex items-center text-xs font-bold cursor-pointer"
+            >
+              <WidgetsOutlinedIcon />
+              <span className="ml-1">CATEGORIES</span>
+            </div>
+            {isCategoriesOpen && (
+              <Dropdown
+                items={categoriesDropDown}
+                onSelect={(item) => console.log("Selected:", item)}
+              />
+            )}
           </div>
+
           <div className="flex flex-1 max-w-[600px] justify-center items-center font-medium">
             <ul className="flex items-center justify-center gap-6 text-xs">
               <li>
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                    `hover:text-blue-500 transition-all duration-300 cursor-pointer ${
                       isActive ? "text-blue-600 font-bold" : ""
                     }`
                   }
@@ -133,7 +165,7 @@ const Header = () => {
                 <NavLink
                   to="about"
                   className={({ isActive }) =>
-                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                    `hover:text-blue-500 transition-all duration-300 cursor-pointer ${
                       isActive ? "text-blue-600 font-bold" : ""
                     }`
                   }
@@ -145,7 +177,7 @@ const Header = () => {
                 <NavLink
                   to="shop"
                   className={({ isActive }) =>
-                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                    `hover:text-blue-500 transition-all duration-300 cursor-pointer ${
                       isActive ? "text-blue-600 font-bold" : ""
                     }`
                   }
@@ -157,7 +189,7 @@ const Header = () => {
                 <NavLink
                   to="blog"
                   className={({ isActive }) =>
-                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                    `hover:text-blue-500 transition-all duration-300 cursor-pointer ${
                       isActive ? "text-blue-600 font-bold" : ""
                     }`
                   }
@@ -169,7 +201,7 @@ const Header = () => {
                 <NavLink
                   to="contact"
                   className={({ isActive }) =>
-                    `hover:text-blue-500 transition-all duration-300 ease-in-out cursor-pointer ${
+                    `hover:text-blue-500 transition-all duration-300 cursor-pointer ${
                       isActive ? "text-blue-600 font-bold" : ""
                     }`
                   }
@@ -191,9 +223,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-
-
-
-
